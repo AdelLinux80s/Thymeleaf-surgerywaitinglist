@@ -15,4 +15,6 @@ public class Patient {
 	private String patientEmailAddress;
 	private String patientBloodType;
 	private String patientOccupation;
+	
+	
 }
