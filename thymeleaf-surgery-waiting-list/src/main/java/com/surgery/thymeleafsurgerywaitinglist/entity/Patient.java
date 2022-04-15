@@ -1,5 +1,15 @@
 package com.surgery.thymeleafsurgerywaitinglist.entity;
 
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="patient")
 public class Patient {
 
 	private Long patientId;
