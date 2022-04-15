@@ -3,6 +3,8 @@ package com.surgery.thymeleafsurgerywaitinglist.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -12,6 +14,8 @@ import lombok.Data;
 @Table(name="patient")
 public class Patient {
 
+	@Id
+	@GeneratedValue
 	private Long patientId;
 	private Long patientNationalID;
 	private String patientFirstName;
