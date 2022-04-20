@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="windows-1256">
+<title>Waiting List</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+		crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<h3> Surgery Waiting List:</h3>
+		<hr/>
+		<br/>
+		<table class="table table-primary table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Surgery ID</th>
+					<th>Procedure</th>
+					<th>Diagnosis</th>
+					<th>Patient ID</th>
+					<th>Surgeon ID</th>
+					<th>Department ID</th>
+					<th>Addition Date</th>
+					<th>Actual Booking Date</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="waitinglist: ${waitinglist}">
+					<td th:text="${waitinglist.waitingListId}"></td>
+					<td th:text="${waitinglist.waitingListProcedure}"></td>
+					<td th:text="${waitinglist.waitingListDiagnosis}"></td>
+					<td th:text="${waitinglist.waitingListPatientId}"></td>
+					<td th:text="${waitinglist.waitingListSurgeonId}"></td>
+					<td th:text="${waitinglist.waitingListDepartmentId}"></td>
+					<td th:text="${waitinglist.waitingListAdditionDate}"></td>
+					<td th:text="${waitinglist.waitingListActualBookingDate}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
