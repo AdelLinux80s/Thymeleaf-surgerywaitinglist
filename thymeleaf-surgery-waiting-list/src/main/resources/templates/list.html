@@ -3,6 +3,9 @@
 <head>
 <meta charset="windows-1256">
 <title>Waiting List</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/bs4/dt-1.11.4/datatables.min.css" />
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
 		crossorigin="anonymous">
@@ -12,7 +15,7 @@
 		<h3> Surgery Waiting List:</h3>
 		<hr/>
 		<br/>
-		<table class="table table-primary table-bordered table-striped">
+		<table class="table table-primary table-bordered table-striped" id="waitinglist">
 			<thead>
 				<tr>
 					<th>Surgery ID</th>
@@ -23,6 +26,7 @@
 					<th>Department ID</th>
 					<th>Addition Date</th>
 					<th>Actual Booking Date</th>
+					<th>Action</th>
 					
 				</tr>
 			</thead>
@@ -36,9 +40,52 @@
 					<td th:text="${waitinglist.waitingListDepartmentId}"></td>
 					<td th:text="${waitinglist.waitingListAdditionDate}"></td>
 					<td th:text="${waitinglist.waitingListActualBookingDate}"></td>
+					<td>update</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+	
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/v/bs4/dt-1.11.4/datatables.min.js"></script>
+		
+		<script>
+		$(document)
+				.ready(
+						function() {
+
+							$('#waitinglist')
+									.dataTable(
+											{
+												"language" : {
+													"sEmptyTable" : "No data available in table",
+													"sInfo" : "Showing _START_ to _END_ of _TOTAL_ entries",
+													"sInfoEmpty" : "Showing 0 to 0 of 0 entries",
+													"sInfoFiltered" : "(filtered from _MAX_ total entries)",
+													"sInfoPostFix" : "",
+													"sInfoThousands" : ",",
+													"sLengthMenu" : "Show _MENU_ entries",
+													"sLoadingRecords" : "Loading...",
+													"sProcessing" : "Processing...",
+													"sSearch" : "Search:",
+													"sZeroRecords" : "No matching records found",
+													"oPaginate" : {
+														"sFirst" : "First",
+														"sLast" : "Last",
+														"sNext" : "Next",
+														"sPrevious" : "Previous"
+													},
+													"oAria" : {
+														"sSortAscending" : ": activate to sort column ascending",
+														"sSortDescending" : ": activate to sort column descending"
+													}
+												}
+											});
+
+						
+						});
+	</script>
 </body>
 </html>
