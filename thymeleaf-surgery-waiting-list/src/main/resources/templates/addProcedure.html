@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="windows-1256">
+<title>Add Procedure</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+function sendAjaxRequest() {
+    var department = $("#department").val();
+    $.get( "http://localhost:8080/surgerywaitinglist/getSurgeonsByDep?department=" + department, function( data ) {
+        $("#surgeonId").empty();
+        data.forEach(function(item, i) {
+            var option = "<option value = " + item + ">" + item +  "</option>";
+            $("#surgeonId").append(option);
+        });
+    });
+};
+
+
+
+</script>
+<script>
+$(document).ready(function() {
+    $("#department").change(function() {
+        sendAjaxRequest();
+    });
+});
+
+</script>
+</head>
+<body>
+	<div class="container">
+		<br />
+		<h3>Add New Procedure dropdownWithHAshmapNonDependent</h3>
+		<br />
+		<hr />
+		<br />
+		<form th:action="@{saveToWaitinList}" th:object="${waitinglist}"
+			method="POST">
+
+			<table class="table table-primary table-bordered table-striped"
+				 style="width: 50%" align="center">
+				<thead>
+
+				</thead>
+
+				<tbody>
+					<tr>
+						<td>MRN</td>
+						<td th:text="${patient.patientId}"></td>
+					</tr>
+					<tr>
+						<td>Name</td>
+						<td
+							th:text="${patient.patientFirstName} +' '+ ${patient.patientLastName}"></td>
+					</tr>
+					<tr>
+						<td>Gender</td>
+						<td th:text="${patient.patientGender}"></td>
+					</tr>
+					<tr>
+						<td>Contact</td>
+						<td th:text="${patient.patientConact}"></td>
+					</tr>
+					<tr>
+						<td>Procedure</td>
+						<td><input type="text"
+							th:field="${waitinglist.waitingListProcedure}"
+							class="form-control col-4 mb-4" placeholder="Enter Procedure" />
+						</td>
+					</tr>
+					<tr>
+						<td>Diagnosis</td>
+						<td><input type="text"
+							th:field="${waitinglist.waitingListDiagnosis}"
+							class="form-control col-4 mb-4" placeholder="Enter Diagnosis" />
+						</td>
+					</tr>
+					<tr>
+						<td>Department</td>
+						<td>
+							<div class="form-group">
+
+			
+								<select name="departmentName" th:with="departmentName = ${department.departmentName}" class="form-control" id="department">
+								
+									 <option value=""  th:selected="selected" th:disabled="disabled">select option</option>
+									<option th:each="department: ${departments}"
+										th:value="${department.departmentName}"
+										th:text="${department.departmentName}"
+										></option>
+
+								</select>
+								
+								
+								
+							</div>
+						</td>
+
+
+
+					</tr>
+					<tr>
+						<td>Surgeon</td>
+						<td>
+							<div class="form-group">
+							
+							
+								
+								<select th:field="${surgeon.surgeonLastName}" class="form-control" id="surgeonId">
+								</select>
+
+							</div> 
+							
+							
+
+						</td>
+
+
+					</tr>
+
+					<tr>
+						<td>Addition Date</td>
+						<td><input type="date"
+							th:field="${waitinglist.waitingListAdditionDate}"
+							class="form-control col-4 mb-4" placeholder="Pick Date" /></td>
+					</tr>
+					<tr>
+						<td>Acttual Booking Date</td>
+						<td><input type="date"
+							th:field="${waitinglist.waitingListActualBookingDate}"
+							class="form-control col-4 mb-4" placeholder="Pick Date" /></td>
+					</tr>
+
+
+				</tbody>
+
+
+			</table>
+			<br />
+			<hr />
+			<br /> <input type="hidden" th:field="${patient.patientId}" />
+
+			<div style="text-align: center;">
+				<input type="submit" value="Save" class="btn btn-primary" />
+			</div>
+
+		</form>
+		<br /> <br />
+		<div style="text-align: center;">
+			<a th:href="@{/surgerywaitinglist}">Back To List</a>
+		</div>
+
+	</div>
+</body>
+</html>
