@@ -10,6 +10,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -72,6 +74,39 @@ public class WaitingListController {
 		mav.addObject("department", department);
 
 		return mav;
+	}
+	
+	@PostMapping(value="/surgerywaitinglist/saveToWaitinList")
+	public String saveToWaitinList(@ModelAttribute WaitingList waitinglist, @ModelAttribute Surgeon surgeon, @ModelAttribute Department department ,Long patientId) {
+		if(waitinglist.getWaitingListId()==null) {
+			System.out.println("saveToWaitinglist waitinglist: " + waitinglist);
+			Department tempDepartment = depRepo.findByDepartmentName(department.getDepartmentName());
+			Surgeon temSurgeon = surgeonRepo.findBySurgeonLastName(surgeon.getSurgeonLastName());
+			System.out.println("saveToWaitinglist tempSurgeon: " + temSurgeon);
+			System.out.println("saveToWaitinglist tempDepartment: " + tempDepartment);
+			
+			waitinglist.setWaitingListSurgeonId(temSurgeon.getSurgeonId());
+			waitinglist.setWaitingListDepartmentId(tempDepartment.getDepartmentId());
+			waitinglist.setWaitingListPatientId(patientId);
+			
+			waitingListRepo.save(waitinglist);
+		}
+		
+		else {
+			System.out.println("saveToWaitinglist waitinglist else: " + waitinglist);
+			Department tempDepartment = depRepo.findByDepartmentName(department.getDepartmentName());
+			Surgeon temSurgeon = surgeonRepo.findBySurgeonLastName(surgeon.getSurgeonLastName());
+			waitinglist.setWaitingListActualBookingDate(waitinglist.getWaitingListActualBookingDate());
+			waitinglist.setWaitingListAdditionDate(waitinglist.getWaitingListAdditionDate());
+			waitinglist.setWaitingListProcedure(waitinglist.getWaitingListProcedure());
+			waitinglist.setWaitingListDiagnosis(waitinglist.getWaitingListDiagnosis());
+			waitinglist.setWaitingListSurgeonId(temSurgeon.getSurgeonId());
+			waitinglist.setWaitingListDepartmentId(tempDepartment.getDepartmentId());
+			waitinglist.setWaitingListPatientId(patientId);
+			waitingListRepo.save(waitinglist);
+		}
+		return "redirect:/surgerywaitinglist";
+		
 	}
 	
 	@GetMapping(value="/surgerywaitinglist/getSurgeonsByDep")

@@ -12,4 +12,7 @@ public interface SurgeonRepository extends JpaRepository<Surgeon, Long>{
 	@Query("FROM Surgeon  WHERE surgeonSpeciality = ?1")
     Set<Surgeon> findBySurgeonspeciality(String surgeonSpeciality);
 
+	
+	@Query("FROM Surgeon  WHERE surgeonLastName = ?1") 
+	Surgeon findBySurgeonLastName(String surgeonLastName);
 }
