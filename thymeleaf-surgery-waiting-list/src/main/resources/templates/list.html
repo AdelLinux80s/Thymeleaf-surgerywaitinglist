@@ -44,7 +44,9 @@
 					<td th:text="${waitinglist.waitingListDepartmentId}"></td>
 					<td th:text="${waitinglist.waitingListAdditionDate}"></td>
 					<td th:text="${waitinglist.waitingListActualBookingDate}"></td>
-					<td>update</td>
+					<td>
+						<a th:href="@{/surgerywaitinglist/update(waitingListId=${waitinglist.waitingListId})}" class="btn btn-info">Update</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>

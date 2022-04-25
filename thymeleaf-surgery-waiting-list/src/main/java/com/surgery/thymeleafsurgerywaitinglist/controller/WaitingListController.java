@@ -76,6 +76,29 @@ public class WaitingListController {
 		return mav;
 	}
 	
+	@GetMapping(value="/surgerywaitinglist/update")
+	public ModelAndView update(@RequestParam Long waitingListId) {
+		ModelAndView mav = new ModelAndView("update");
+		WaitingList waitinglist = waitingListRepo.findById(waitingListId).get();
+		System.out.println("update waitinglist: " + waitinglist);
+		Patient patient = paitentRepo.findById(waitinglist.getWaitingListPatientId()).get();
+		HashMap<String, Set<String>> SurgeonsByDepartments = getSurgeonsByDepartments();
+		Surgeon surgeon = surgeonRepo.findById(waitinglist.getWaitingListSurgeonId()).get();
+		Department department = depRepo.findById(waitinglist.getWaitingListDepartmentId()).get();
+		List<Surgeon> surgeons = surgeonRepo.findByDepartmentIdInSurgery(waitinglist.getWaitingListDepartmentId()); 
+		List<Department> departments = depRepo.findAll();
+		mav.addObject("waitinglist", waitinglist);
+		System.out.println("watinglist: " + waitinglist);
+		mav.addObject("patient", patient);		
+		mav.addObject("departments", departments);
+		mav.addObject("SurgeonsByDepartments", SurgeonsByDepartments);
+		mav.addObject("surgeon", surgeon);
+		mav.addObject("surgeons", surgeons);
+		mav.addObject("department", department);
+		
+		return mav;
+	}
+	
 	@PostMapping(value="/surgerywaitinglist/saveToWaitinList")
 	public String saveToWaitinList(@ModelAttribute WaitingList waitinglist, @ModelAttribute Surgeon surgeon, @ModelAttribute Department department ,Long patientId) {
 		if(waitinglist.getWaitingListId()==null) {
