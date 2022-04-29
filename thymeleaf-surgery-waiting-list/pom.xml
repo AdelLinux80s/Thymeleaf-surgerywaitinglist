@@ -14,7 +14,7 @@
 	<name>Thymeleaf-surgerywaitinglist</name>
 	<description>Taking advantage of thymeleaf to create a Java end-user friendly engine for processing and creating HTML, JavaScript, CSS and text along with restful API.</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -6,9 +6,11 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/v/bs4/dt-1.11.4/datatables.min.css" />
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
-		crossorigin="anonymous">
+<<link rel="stylesheet"
+	 href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+	 integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+	 crossorigin="anonymous">
+
 </head>
 <body>
 	<div class="container">
@@ -16,40 +18,55 @@
 		<hr/>
 		<br/>
 		<a th:href="@{/surgerywaitinglist/patientSearch}" class="btn btn-primary">Add
-			Procedure</a> 
+			Procedure</a>
+		<a th:href="@{/surgerywaitinglist/patientSurgerySearch}" class="btn btn-primary">Patient Procedure Search</a>
+			<br /> 
+			<br />
 		<br/>
 		<br/>
-		<table class="table table-primary table-bordered table-striped" id="waitinglist">
-			<thead>
-				<tr>
-					<th>Surgery ID</th>
-					<th>Procedure</th>
-					<th>Diagnosis</th>
-					<th>Patient ID</th>
-					<th>Surgeon ID</th>
-					<th>Department ID</th>
-					<th>Addition Date</th>
-					<th>Actual Booking Date</th>
-					<th>Action</th>
+		
+		<!-- ///////////////////////////////
+			To auto/prevent column wrapping
+			/////////////////////////////// -->
+			
+		<div class="row">
+			<div class="col-auto">
+				<table class="table table-primary table-bordered table-striped" id="waitinglist">
+					<thead>
+						<tr>
+							<th>Surgery ID</th>
+							<th>Procedure</th>
+							<th>Diagnosis</th>
+							<th>Patient ID</th>
+							<th>Surgeon ID</th>
+							<th>Department ID</th>
+							<th>Addition Date</th>
+							<th>Actual Booking Date</th>
+							<th>Action</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="waitinglist: ${waitinglist}">
+							<td th:text="${waitinglist.waitingListId}"></td>
+							<td th:text="${waitinglist.waitingListProcedure}"></td>
+							<td th:text="${waitinglist.waitingListDiagnosis}"></td>
+							<td th:text="${waitinglist.waitingListPatientId}"></td>
+							<td th:text="${waitinglist.waitingListSurgeonId}"></td>
+							<td th:text="${waitinglist.waitingListDepartmentId}"></td>
+							<td th:text="${waitinglist.waitingListAdditionDate}"></td>
+							<td th:text="${waitinglist.waitingListActualBookingDate}"></td>
+							<td>
+								<a th:href="@{/surgerywaitinglist/update(waitingListId=${waitinglist.waitingListId})}" class="btn btn-info">Update</a>
+								<a th:href="@{/surgerywaitinglist/remove(waitingListId=${waitinglist.waitingListId})}" class="btn btn-info">Remove</a>
+							
+							</td>
+						</tr>
+					</tbody>
 					
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="waitinglist: ${waitinglist}">
-					<td th:text="${waitinglist.waitingListId}"></td>
-					<td th:text="${waitinglist.waitingListProcedure}"></td>
-					<td th:text="${waitinglist.waitingListDiagnosis}"></td>
-					<td th:text="${waitinglist.waitingListPatientId}"></td>
-					<td th:text="${waitinglist.waitingListSurgeonId}"></td>
-					<td th:text="${waitinglist.waitingListDepartmentId}"></td>
-					<td th:text="${waitinglist.waitingListAdditionDate}"></td>
-					<td th:text="${waitinglist.waitingListActualBookingDate}"></td>
-					<td>
-						<a th:href="@{/surgerywaitinglist/update(waitingListId=${waitinglist.waitingListId})}" class="btn btn-info">Update</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+				</table>
+			</div>
+		</div>
 	</div>
 	
 	<script

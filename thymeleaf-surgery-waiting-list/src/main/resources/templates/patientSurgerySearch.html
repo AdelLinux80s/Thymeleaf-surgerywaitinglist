@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-<meta charset="windows-1256">
-<title>Patient Search</title>
+<meta charset="ISO-8859-1">
+<title>Patient Surgery Search</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -16,7 +15,7 @@
 		<br />
 		<hr />
 		<br />
-		<form th:action="@{/surgerywaitinglist/addProcedure}" th:object="${patient}" method="GET">
+		<form th:action="@{/surgerywaitinglist/patientSurgeries}" th:object="${patient}" method="GET">
 			<input type="text" th:field="*{patientId}"
 				class="form-control col-4 mb-4" placeholder="Enter File Number Here" />
 				
@@ -28,7 +27,6 @@
 				<input type="submit" value="SUBMIT"/>
 				
 		</form>
-		
 		<br /> <br />
 		<div style="text-align: center;">
 			<a th:href="@{/surgerywaitinglist}">Back To List</a>

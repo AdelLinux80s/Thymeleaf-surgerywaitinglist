@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.surgery.thymeleafsurgerywaitinglist.dto.WaitingListDTO;
 import com.surgery.thymeleafsurgerywaitinglist.entity.Department;
 import com.surgery.thymeleafsurgerywaitinglist.entity.Patient;
 import com.surgery.thymeleafsurgerywaitinglist.entity.Surgeon;
@@ -43,6 +44,7 @@ public class WaitingListController {
 	@GetMapping("/surgerywaitinglist")
 	public ModelAndView getAll() {
 		ModelAndView mav = new ModelAndView("list");
+		
 		mav.addObject("waitinglist", waitingListRepo.findAll());
 		return mav;
 	}
@@ -55,6 +57,15 @@ public class WaitingListController {
 		return mav;
 	}
 
+	@GetMapping(value="/surgerywaitinglist/patientSurgerySearch")
+	public ModelAndView patientSurgerySearch() {
+		ModelAndView mav = new ModelAndView("patientSurgerySearch");
+		Patient patient = new Patient();
+		mav.addObject("patient", patient);
+		return mav;
+	}
+	
+	
 	@GetMapping(value = "/surgerywaitinglist/addProcedure")
 	public ModelAndView addProcedure(Patient tempPatient) {
 
@@ -96,6 +107,24 @@ public class WaitingListController {
 		mav.addObject("surgeons", surgeons);
 		mav.addObject("department", department);
 		
+		return mav;
+	}
+	
+	@GetMapping(value="surgerywaitinglist/remove")
+	public String removeFromWaitingList(@RequestParam Long waitingListId) {
+		waitingListRepo.deleteById(waitingListId);
+		return "redirect:/surgerywaitinglist";
+	}
+	
+	@GetMapping(value="/surgerywaitinglist/patientSurgeries")
+	public ModelAndView patientSurgeries(Patient tempPatient) {
+		ModelAndView mav = new ModelAndView("patientSurgeries");
+		List<WaitingList> WaitingList = waitingListRepo.findByWaitingListPatientId(tempPatient.getPatientId());
+		System.out.println("In GetMapping(surgerywaitinglist/patientSurgeries" + WaitingList);
+		List<WaitingListDTO> waitinglistDTO = convertWaitingToWaitingListDTO(WaitingList);
+		Patient patient = paitentRepo.findById(tempPatient.getPatientId()).get();
+		mav.addObject("patient", patient);
+		mav.addObject("waitinglistDTO", waitinglistDTO);
 		return mav;
 	}
 	
@@ -178,5 +207,46 @@ public class WaitingListController {
 		return SurgeonsByDepartments;
 		
 		
+	}
+	
+	private List<WaitingListDTO> convertWaitingToWaitingListDTO(List<WaitingList> waitingList){
+		List<WaitingListDTO> listDTO = new ArrayList<>();
+		
+		Department department = new Department();
+		Surgeon surgeon = new Surgeon();
+		//for(int i = 0 ; i<waitingList.size(); i++) {
+		for(WaitingList waitinlistTemp: waitingList) {
+			WaitingListDTO waitingListDTO = new WaitingListDTO();
+			//waitingListDTO.setWaitingListId(waitingList.get(i).getWaitingListId());
+			
+			waitingListDTO.setWaitingListId(waitinlistTemp.getWaitingListId());
+			//System.out.println("waitingListDTO waitinglistId: " + waitingListDTO.getWaitingListId());
+		
+			
+			
+			
+			  waitingListDTO.setWaitingListProcedure(waitinlistTemp.getWaitingListProcedure());
+			  waitingListDTO.setWaitingListDiagnosis(waitinlistTemp.getWaitingListDiagnosis());
+			  waitingListDTO.setWaitingListPatientId(waitinlistTemp.getWaitingListPatientId());
+			  waitingListDTO.setWaitingListSurgeonId(waitinlistTemp. getWaitingListSurgeonId());
+			  waitingListDTO.setWaitingListDepartmentId(waitinlistTemp.getWaitingListDepartmentId());
+			  
+			  department = depRepo.findById(waitingListDTO.getWaitingListDepartmentId()).get();
+			  //System.out.print("department in convert:  " + department);
+			  waitingListDTO.setWaitingListDepartmentName(department.getDepartmentName());
+			  
+			  surgeon = surgeonRepo.findById(waitingListDTO.getWaitingListSurgeonId()).get();
+			  waitingListDTO.setWaitingListSurgeonLastName(surgeon.getSurgeonLastName());
+			  waitingListDTO.setWaitingListAdditionDate(waitinlistTemp.getWaitingListAdditionDate());
+			  waitingListDTO.setWaitingListActualBookingDate(waitinlistTemp.getWaitingListActualBookingDate());
+			 
+
+			listDTO.add(waitingListDTO);
+			//System.out.println("in convertWaitingToWaitingListDTO listDTO: "+ listDTO);
+			
+
+
+		}
+		return listDTO;
 	}
 }
